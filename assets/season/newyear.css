@@ -1,0 +1,86 @@
+/* NEW YEAR THEME - Celebration & Fresh Start */
+
+body.theme-new-year,
+body.theme-new-year-eve {
+  background: linear-gradient(135deg, #000428 0%, #004e92 100%);
+  position: relative;
+  overflow-x: hidden;
+}
+
+.theme-new-year .header,
+.theme-new-year-eve .header {
+  background: linear-gradient(90deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%) !important;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+}
+
+.theme-new-year .logo h1,
+.theme-new-year-eve .logo h1 {
+  color: #000 !important;
+  text-shadow: 2px 2px 4px rgba(255, 215, 0, 0.5);
+}
+
+.theme-new-year .btn-getstarted,
+.theme-new-year-eve .btn-getstarted {
+  background: linear-gradient(45deg, #ffd700, #ff6b6b) !important;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+  animation: new-year-pulse 2s infinite;
+}
+
+.theme-new-year .section-title h2,
+.theme-new-year-eve .section-title h2 {
+  color: #ffd700;
+  text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+}
+
+/* Countdown timer */
+.theme-new-year::before,
+.theme-new-year-eve::before {
+  content: '🎊 HAPPY NEW YEAR 2025! 🎉';
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(45deg, #ffd700, #ff6b6b);
+  color: #fff;
+  padding: 15px 30px;
+  border-radius: 50px;
+  font-size: 20px;
+  font-weight: bold;
+  z-index: 10000;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  animation: new-year-bounce 2s infinite;
+}
+
+@keyframes new-year-pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); }
+  50% { transform: scale(1.05); box-shadow: 0 0 40px rgba(255, 215, 0, 1); }
+}
+
+@keyframes new-year-bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-10px); }
+}
+
+/* Sparkle effect */
+.theme-new-year .service-single-main-wrapper-five,
+.theme-new-year-eve .service-single-main-wrapper-five {
+  border: 2px solid #ffd700;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.theme-new-year .service-single-main-wrapper-five::after,
+.theme-new-year-eve .service-single-main-wrapper-five::after {
+  content: '✨';
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  animation: sparkle 3s infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
+  50% { opacity: 0.5; transform: scale(1.2) rotate(180deg); }
+}

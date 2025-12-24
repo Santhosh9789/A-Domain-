@@ -1,0 +1,40 @@
+/* SUMMER THEME - Bright & Sunny */
+
+body.theme-summer {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.theme-summer .header {
+  background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%) !important;
+}
+
+.theme-summer .btn-getstarted {
+  background: linear-gradient(45deg, #fa709a, #fee140) !important;
+  box-shadow: 0 5px 20px rgba(250, 112, 154, 0.5);
+}
+
+.theme-summer .section-title h2 {
+  color: #fee140;
+  text-shadow: 2px 2px 8px rgba(254, 225, 64, 0.6);
+}
+
+/* Sun decoration */
+.theme-summer::before {
+  content: '☀️';
+  position: fixed;
+  top: 100px;
+  right: 50px;
+  font-size: 60px;
+  animation: sun-rotate 20s linear infinite;
+  z-index: 10000;
+}
+
+.theme-summer .service-single-main-wrapper-five {
+  border: 2px solid #fee140;
+  box-shadow: 0 5px 20px rgba(254, 225, 64, 0.3);
+}
+
+@keyframes sun-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

@@ -1,0 +1,49 @@
+/* HALLOWEEN THEME - Spooky & Fun */
+
+body.theme-halloween {
+  background: linear-gradient(135deg, #1a0033 0%, #330066 100%);
+}
+
+.theme-halloween .header {
+  background: linear-gradient(90deg, #ff6600 0%, #ff9933 50%, #ff6600 100%) !important;
+  box-shadow: 0 0 20px rgba(255, 102, 0, 0.5);
+}
+
+.theme-halloween .btn-getstarted {
+  background: linear-gradient(45deg, #ff6600, #9933ff) !important;
+  box-shadow: 0 0 20px rgba(255, 102, 0, 0.6);
+  animation: halloween-glow 2s infinite;
+}
+
+.theme-halloween .section-title h2 {
+  color: #ff6600;
+  text-shadow: 0 0 15px rgba(255, 102, 0, 0.8);
+}
+
+/* Spooky decorations */
+.theme-halloween::before {
+  content: '🎃 👻 🦇 🕷️ 🎃';
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 30px;
+  z-index: 10000;
+  animation: spooky-shake 3s ease-in-out infinite;
+}
+
+.theme-halloween .service-single-main-wrapper-five {
+  border: 2px solid #ff6600;
+  box-shadow: 0 0 20px rgba(255, 102, 0, 0.3);
+}
+
+@keyframes halloween-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(255, 102, 0, 0.6); }
+  50% { box-shadow: 0 0 40px rgba(153, 51, 255, 0.8); }
+}
+
+@keyframes spooky-shake {
+  0%, 100% { transform: translateX(-50%) rotate(0deg); }
+  25% { transform: translateX(-50%) rotate(-2deg); }
+  75% { transform: translateX(-50%) rotate(2deg); }
+}

@@ -1,0 +1,220 @@
+/*--------------------------------------------------------------
+# Stats Section
+--------------------------------------------------------------*/
+.stats .stats-item {
+  padding: 30px;
+  width: 100%;
+}
+
+.stats .stats-item span {
+  font-size: 48px;
+  display: block;
+  color: var(--heading-color);
+  font-weight: 700;
+}
+
+.stats .stats-item p {
+  padding: 0;
+  margin: 0;
+  font-family: var(--heading-font);
+  font-size: 16px;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--default-color), transparent 40%);
+}
+
+/*--------------------------------------------------------------
+# Skills Section
+--------------------------------------------------------------*/
+.skills .content h3 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.skills .content p {
+  color: color-mix(in srgb, var(--default-color), transparent 20%);
+}
+
+.skills .progress {
+  height: 60px;
+  display: block;
+  background: none;
+  border-radius: 0;
+  margin-top: 15px;
+}
+
+.skills .progress .skill {
+  color: var(--heading-color);
+  padding: 0;
+  margin: 0 0 6px 0;
+  text-transform: uppercase;
+  display: block;
+  font-weight: 600;
+  font-family: var(--heading-font);
+}
+
+.skills .progress .skill .val {
+  float: right;
+  font-style: normal;
+}
+
+.skills .progress-bar-wrap {
+  background: color-mix(in srgb, var(--default-color), transparent 90%);
+  height: 10px;
+}
+
+.skills .progress-bar {
+  width: 1px;
+  height: 10px;
+  transition: 0.9s;
+  background-color: var(--accent-color);
+}
+
+/*--------------------------------------------------------------
+# Future Horizons Section
+--------------------------------------------------------------*/
+.future-horizons .future-card {
+  background: #fff;
+  padding: 40px;
+  border-radius: 15px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  height: 100%;
+}
+
+.future-horizons .future-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(0, 68, 114, 0.15);
+  /* Brand color shadow */
+}
+
+.future-horizons .future-card .icon-large {
+  font-size: 48px;
+  color: var(--accent-color);
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
+.future-horizons .future-card h3 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: var(--heading-color);
+}
+
+.future-horizons .future-card p {
+  color: var(--default-color);
+  font-size: 16px;
+}
+
+.future-horizons .badge-coming-soon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(45deg, #ff6b6b, #ee5253);
+  color: white;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 10px rgba(238, 82, 83, 0.3);
+}
+
+/* Specific styling for the cards */
+.future-horizons .game-design {
+  border-bottom: 4px solid #004472;
+  /* Brand Blue */
+}
+
+.future-horizons .cyber-security {
+  border-bottom: 4px solid #2ecc71;
+  /* Safe Green */
+}
+
+.future-horizons .blockchain {
+  border-bottom: 4px solid #9b59b6;
+  /* Purple for Blockchain */
+}
+
+/*--------------------------------------------------------------
+# Services Section - 5 Column Layout
+--------------------------------------------------------------*/
+@media (min-width: 1200px) {
+  #services .row .col-xl-3 {
+    width: 20%;
+    flex: 0 0 auto;
+  }
+}
+
+/*--------------------------------------------------------------
+# Premium Service Cards (Overrides)
+--------------------------------------------------------------*/
+.service-single-main-wrapper-five {
+  background: #ffffff;
+  padding: 40px 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px -10px rgba(55, 81, 126, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  height: 100%;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.service-single-main-wrapper-five::before,
+.service-single-main-wrapper-five::after {
+  display: none !important;
+  content: none !important;
+}
+
+.service-single-main-wrapper-five:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 50px -10px rgba(0, 68, 114, 0.2);
+  border-color: transparent;
+}
+
+.service-single-main-wrapper-five .title {
+  font-weight: 700;
+  font-size: 20px;
+  margin-bottom: 15px;
+  letter-spacing: -0.5px;
+  color: var(--heading-color);
+}
+
+.service-single-main-wrapper-five .disc {
+  color: color-mix(in srgb, var(--default-color), transparent 20%);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* Premium Icon styling */
+.service-single-main-wrapper-five .icon {
+  width: 60px;
+  height: 60px;
+  background: color-mix(in srgb, var(--accent-color), transparent 94%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 25px;
+  transition: 0.3s;
+}
+
+.service-single-main-wrapper-five .icon i {
+  font-size: 28px;
+  color: var(--accent-color);
+  transition: 0.3s;
+}
+
+.service-single-main-wrapper-five:hover .icon {
+  background: var(--accent-color);
+}
+
+.service-single-main-wrapper-five:hover .icon i {
+  color: #fff;
+}

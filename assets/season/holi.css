@@ -1,0 +1,61 @@
+/* HOLI THEME - Festival of Colors */
+
+body.theme-holi {
+  background: linear-gradient(135deg, #ff0080 0%, #ff8000 25%, #80ff00 50%, #0080ff 75%, #8000ff 100%);
+  background-size: 400% 400%;
+  animation: holi-gradient 15s ease infinite;
+}
+
+.theme-holi .header {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(10px);
+}
+
+.theme-holi .logo h1 {
+  background: linear-gradient(45deg, #ff0080, #ff8000, #80ff00, #0080ff, #8000ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: holi-text 3s linear infinite;
+}
+
+.theme-holi .btn-getstarted {
+  background: linear-gradient(45deg, #ff0080, #ff8000, #80ff00) !important;
+  background-size: 200% 200%;
+  animation: holi-button 3s ease infinite;
+}
+
+.theme-holi .service-single-main-wrapper-five {
+  border: 3px solid transparent;
+  background-image: linear-gradient(white, white), 
+                    linear-gradient(45deg, #ff0080, #ff8000, #80ff00, #0080ff);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+@keyframes holi-gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes holi-text {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+@keyframes holi-button {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Color powder effect on hover */
+.theme-holi .service-single-main-wrapper-five:hover {
+  animation: color-burst 0.5s ease;
+}
+
+@keyframes color-burst {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(255, 0, 128, 0.6); }
+}

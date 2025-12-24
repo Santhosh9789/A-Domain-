@@ -1,0 +1,62 @@
+/* DIWALI THEME - Festival of Lights */
+
+body.theme-diwali {
+  background: linear-gradient(135deg, #1a0033 0%, #330066 50%, #1a0033 100%);
+}
+
+.theme-diwali .header {
+  background: linear-gradient(90deg, #ff6b00 0%, #ff8c00 50%, #ff6b00 100%) !important;
+  box-shadow: 0 0 20px rgba(255, 107, 0, 0.5);
+}
+
+.theme-diwali .btn-getstarted {
+  background: linear-gradient(45deg, #ff6b00, #ffd700) !important;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+  animation: diwali-glow 2s infinite;
+}
+
+.theme-diwali .section-title h2 {
+  color: #ffd700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+}
+
+/* Diya (lamp) decorations */
+.theme-diwali::before {
+  content: '🪔';
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  font-size: 40px;
+  animation: flicker 2s infinite;
+  z-index: 10000;
+}
+
+.theme-diwali::after {
+  content: '🪔';
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  font-size: 40px;
+  animation: flicker 2.5s infinite;
+  z-index: 10000;
+}
+
+@keyframes diwali-glow {
+  0%, 100% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
+  50% { box-shadow: 0 0 30px rgba(255, 215, 0, 1); }
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(0.95); }
+}
+
+/* Rangoli patterns */
+.theme-diwali .service-single-main-wrapper-five {
+  border: 2px solid #ffd700;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.theme-diwali .service-single-main-wrapper-five:hover {
+  box-shadow: 0 0 30px rgba(255, 107, 0, 0.6);
+}
