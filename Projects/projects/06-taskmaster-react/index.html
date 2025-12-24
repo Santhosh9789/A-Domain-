@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FocusFlow | Project Manager</title>
+  <link href="../../../assets/img/favicon.png" rel="icon" type="image/png">
+  <link href="../../../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .main, body, section { will-change: transform, opacity; backface-visibility: hidden; }
+
+        :root { --primary: #3B82F6; --bg: #F8FAFC; --card: #FFFFFF; --text: #1E293B; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 40px; margin: 0; display: flex; justify-content: center; min-height: 100vh; }
+
+        .app-container { width: 100%; max-width: 900px; display: grid; grid-template-columns: 250px 1fr; gap: 30px; }
+
+        /* Sidebar */
+        .sidebar { background: var(--card); padding: 25px; border-radius: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); height: fit-content; }
+        .logo { font-size: 1.4rem; font-weight: 800; margin-bottom: 30px; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+        .nav-item { padding: 12px 15px; border-radius: 10px; cursor: pointer; color: #64748B; font-weight: 600; transition: 0.2s; display: flex; align-items: center; gap: 10px; }
+        .nav-item:hover, .nav-item.active { background: #EBF8FF; color: var(--primary); }
+        .nav-item .count { margin-left: auto; background: #E2E8F0; font-size: 0.8rem; padding: 2px 8px; border-radius: 12px; }
+
+        /* Main */
+        .main { background: var(--card); border-radius: 20px; padding: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; margin: 0; }
+        
+        .add-task-bar { display: flex; gap: 10px; background: #F1F5F9; padding: 10px; border-radius: 12px; margin-bottom: 30px; }
+        input { flex: 1; background: transparent; border: none; outline: none; padding: 5px 10px; font-size: 1rem; }
+        select { background: transparent; border: none; outline: none; color: #64748B; font-weight: 600; cursor: pointer; }
+        button.add-btn { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        button.add-btn:hover { background: #2563EB; }
+
+        /* Tasks */
+        .task-list { list-style: none; padding: 0; margin: 0; }
+        .task-item { display: flex; align-items: center; padding: 15px; border-bottom: 1px solid #F1F5F9; transition: 0.2s; }
+        .task-item:last-child { border-bottom: none; }
+        .task-item:hover { background: #F8FAFC; }
+        
+        .check { width: 22px; height: 22px; border: 2px solid #CBD5E1; border-radius: 6px; margin-right: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .task-item.completed .check { background: var(--primary); border-color: var(--primary); }
+        .task-item.completed .check::after { content: '\f00c'; font-family: 'Font Awesome 5 Free'; font-weight: 900; color: white; font-size: 12px; }
+        .task-item.completed .text { text-decoration: line-through; color: #94A3B8; }
+        
+        .text { flex: 1; font-weight: 500; }
+        .tag { font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; font-weight: 700; text-transform: uppercase; margin-right: 15px; }
+        .tag.high { background: #FEF2F2; color: #EF4444; }
+        .tag.medium { background: #FFFBEB; color: #F59E0B; }
+        .tag.low { background: #F0FDF4; color: #22C55E; }
+        
+        .controls { color: #94A3B8; display: flex; gap: 15px; font-size: 0.9rem; cursor: pointer; opacity: 0; transition: 0.2s; }
+        .task-item:hover .controls { opacity: 1; }
+        .controls i:hover { color: #EF4444; }
+
+        @media(max-width: 768px) { .app-container { grid-template-columns: 1fr; } .sidebar { display: none; } }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo"><i class="fas fa-layer-group"></i> FocusFlow</div>
+            <div class="nav-item active" onclick="filterView('all', this)"><i class="fas fa-inbox"></i> Inbox <span class="count" id="countAll">0</span></div>
+            <div class="nav-item" onclick="filterView('today', this)"><i class="fas fa-calendar-day"></i> Today <span class="count" id="countToday">0</span></div>
+            <div class="nav-item" onclick="filterView('important', this)"><i class="fas fa-star"></i> Important <span class="count" id="countImp">0</span></div>
+            <div style="margin-top: 30px; font-size: 0.85rem; color: #94A3B8; font-weight: 700; padding: 0 15px 10px;">PROJECTS</div>
+            <div class="nav-item"><i class="fas fa-circle" style="color:#3B82F6; font-size:0.6rem;"></i> Work</div>
+            <div class="nav-item"><i class="fas fa-circle" style="color:#F59E0B; font-size:0.6rem;"></i> Personal</div>
+        </aside>
+
+        <!-- Main -->
+        <main class="main">
+            <header>
+                <h1 id="viewTitle">Inbox</h1>
+                <div style="font-size:0.9rem; color:#64748B;">Saturday, Dec 21</div>
+            </header>
+
+            <div class="add-task-bar">
+                <i class="fas fa-plus" style="color:#94A3B8; padding-top:5px;"></i>
+                <input type="text" id="taskInput" placeholder="Add a new task...">
+                <select id="priorityInput">
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+                <button class="add-btn" onclick="addTask()">Add Task</button>
+            </div>
+
+            <ul class="task-list" id="taskList">
+                <!-- Tasks will be injected here -->
+            </ul>
+        </main>
+    </div>
+
+    <script>
+        // Init with LocalStorage or Mock Data
+        let tasks = JSON.parse(localStorage.getItem('focusFlowTasks')) || [
+            { id: 1, text: 'Review Website Design', priority: 'high', done: false, date: 'today' },
+            { id: 2, text: 'Client Meeting at 2 PM', priority: 'medium', done: false, date: 'today' },
+            { id: 3, text: 'Update Portfolio', priority: 'low', done: true, date: 'inbox' }
+        ];
+
+        let draggedItem = null;
+
+        function saveTasks() {
+            localStorage.setItem('focusFlowTasks', JSON.stringify(tasks));
+            updateCounts();
+        }
+
+        function renderTasks(filter = 'all') {
+            const list = document.getElementById('taskList');
+            list.innerHTML = '';
+            
+            let filtered = tasks;
+            if(filter === 'important') filtered = tasks.filter(t => t.priority === 'high');
+            if(filter === 'today') filtered = tasks.filter(t => t.date === 'today');
+            
+            filtered.forEach(task => {
+                const li = document.createElement('li');
+                li.className = `task-item ${task.done ? 'completed' : ''}`;
+                li.draggable = true; // Advanced: Enable Drag
+                li.dataset.id = task.id;
+                
+                // DnD Events
+                li.addEventListener('dragstart', handleDragStart);
+                li.addEventListener('dragover', handleDragOver);
+                li.addEventListener('drop', handleDrop);
+                li.addEventListener('dragend', handleDragEnd);
+
+                li.innerHTML = `
+                    <div style="cursor:grab; margin-right:10px; color:#cbd5e1;"><i class="fas fa-grip-vertical"></i></div>
+                    <div class="check" onclick="toggleTask(${task.id})"></div>
+                    <span class="text">${task.text}</span>
+                    <span class="tag ${task.priority}">${task.priority}</span>
+                    <div class="controls">
+                        <i class="fas fa-trash-alt" onclick="deleteTask(${task.id})"></i>
+                    </div>
+                `;
+                list.appendChild(li);
+            });
+            updateCounts();
+        }
+
+        // --- Advanced: Drag and Drop Logic ---
+        function handleDragStart(e) {
+            draggedItem = this;
+            this.style.opacity = '0.4';
+            e.dataTransfer.effectAllowed = 'move';
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault(); // Necessary to allow dropping
+            e.dataTransfer.dropEffect = 'move';
+            return false;
+        }
+
+        function handleDrop(e) {
+            e.stopPropagation();
+            if (draggedItem !== this) {
+                // Reorder Data Array
+                const draggedId = parseInt(draggedItem.dataset.id);
+                const dropId = parseInt(this.dataset.id);
+                
+                const draggedIdx = tasks.findIndex(t => t.id === draggedId);
+                const dropIdx = tasks.findIndex(t => t.id === dropId);
+                
+                if(draggedIdx >= 0 && dropIdx >= 0) {
+                    // Swap logic (Remove and Insert)
+                    const [removed] = tasks.splice(draggedIdx, 1);
+                    tasks.splice(dropIdx, 0, removed);
+                    saveTasks();
+                    renderTasks();
+                }
+            }
+            return false;
+        }
+
+        function handleDragEnd() {
+            this.style.opacity = '1';
+            draggedItem = null;
+        }
+        // -------------------------------------
+
+        function addTask() {
+            const input = document.getElementById('taskInput');
+            const prio = document.getElementById('priorityInput').value;
+            if(!input.value) return;
+
+            tasks.unshift({ id: Date.now(), text: input.value, priority: prio, done: false, date: 'today' });
+            input.value = '';
+            saveTasks();
+            renderTasks();
+        }
+
+        function toggleTask(id) {
+            const t = tasks.find(t => t.id === id);
+            if(t) {
+                t.done = !t.done;
+                saveTasks();
+                renderTasks();
+            }
+        }
+
+        function deleteTask(id) {
+            if(confirm('Delete this task?')) {
+                tasks = tasks.filter(t => t.id !== id);
+                saveTasks();
+                renderTasks();
+            }
+        }
+
+        function updateCounts() {
+            document.getElementById('countAll').innerText = tasks.length;
+            document.getElementById('countToday').innerText = tasks.filter(t=>t.date==='today').length;
+            document.getElementById('countImp').innerText = tasks.filter(t=>t.priority==='high').length;
+        }
+
+        function filterView(view, btn) {
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            if(btn) btn.classList.add('active');
+            
+            const titles = { 'all': 'Inbox', 'today': 'Today', 'important': 'Important' };
+            document.getElementById('viewTitle').innerText = titles[view] || 'Tasks';
+            renderTasks(view);
+        }
+
+        // Init
+        renderTasks();
+    </script>
+<script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
+
+<script>
+    // Smooth scrolling for demos
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      direction: 'vertical',
+      gestureDirection: 'vertical',
+      smooth: true,
+      mouseMultiplier: 0.8,
+      smoothTouch: false,
+      touchMultiplier: 2,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vortex | Creative Digital Lab</title>
+  <link href="../../../assets/img/favicon.png" rel="icon" type="image/png">
+  <link href="../../../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #050505; --card: #111; --primary: #D4F464; --text: #fff; --gray: #888;
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; cursor: none; } /* Custom Cursor Everywhere */
+        
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+        /* Custom Cursor */
+        .cursor {
+            width: 20px; height: 20px; border: 2px solid var(--primary); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999;
+            transition: transform 0.1s; transform: translate(-50%, -50%); mix-blend-mode: difference;
+            will-change: transform;
+            backface-visibility: hidden;
+        }
+        .cursor.hovered { transform: translate(-50%, -50%) scale(2.5); background: rgba(212, 244, 100, 0.1); }
+
+        h1, h2, h3 { font-family: 'Syne', sans-serif; font-weight: 800; }
+        
+        /* Nav */
+        nav { padding: 30px 50px; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top:0; z-index: 100; mix-blend-mode: difference; }
+        .logo { font-size: 1.5rem; letter-spacing: -1px; }
+
+        /* Hero */
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 50px; position: relative; }
+        .hero h1 { font-size: 8rem; line-height: 0.9; margin-bottom: 20px; text-transform: uppercase; }
+        .outline-text { -webkit-text-stroke: 1px rgba(255,255,255,0.3); color: transparent; transition: 0.5s; }
+        .hero h1:hover .outline-text { color: var(--primary); -webkit-text-stroke: 0; }
+        
+        .hero p { max-width: 500px; font-size: 1.1rem; color: var(--gray); margin-bottom: 40px; }
+        
+        .cta-btn {
+            display: inline-block; padding: 15px 40px; border: 1px solid rgba(255,255,255,0.2); 
+            border-radius: 50px; text-decoration: none; color: white; transition: 0.3s; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px;
+        }
+        .cta-btn:hover { background: var(--primary); color: black; border-color: var(--primary); }
+
+        /* Interactive Grid */
+        .grid-section { padding: 100px 50px; }
+        .filter-nav { display: flex; gap: 30px; margin-bottom: 50px; }
+        .filter-btn { color: var(--gray); cursor: pointer; font-family: 'Syne'; font-size: 1.2rem; transition: 0.3s; }
+        .filter-btn.active, .filter-btn:hover { color: var(--primary); }
+
+        .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; }
+        .project-card { height: 400px; background: #1a1a1a; border-radius: 0; position: relative; overflow: hidden; transition: 0.5s; }
+        .project-card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: 0.5s; }
+        .project-card:hover img { filter: grayscale(0%); transform: scale(1.1); }
+        .project-info {
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px;
+            background: linear-gradient(to top, black, transparent); transform: translateY(100%); transition: 0.5s;
+        }
+        .project-card:hover .project-info { transform: translateY(0); }
+
+        /* Modal */
+        .modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000;
+            display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.5s;
+        }
+        .modal.active { opacity: 1; pointer-events: initial; }
+        .modal-content { background: #111; padding: 50px; width: 500px; border: 1px solid #333; text-align: center; }
+        .modal input, .modal textarea { width: 100%; padding: 15px; margin-bottom: 20px; background: #000; border: 1px solid #333; color: white; font-family: 'Inter'; outline: none; }
+        .modal textarea { height: 100px; resize: none; }
+        .modal button { width: 100%; padding: 15px; background: var(--primary); border: none; font-weight: 700; cursor: pointer; text-transform: uppercase; }
+
+        @media(max-width: 768px) {
+            .hero h1 { font-size: 4rem; }
+            .projects-grid { grid-template-columns: 1fr; }
+            nav { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor"></div>
+
+    <nav>
+        <div class="logo">VORTEX</div>
+        <div class="menu-btn" onmouseover="hoverCursor()" onmouseleave="leaveCursor()" onclick="alert('Menu Overlay Demo')">MENU +</div>
+    </nav>
+
+    <section class="hero">
+        <h1>We Design <br><span class="outline-text">The Future.</span></h1>
+        <p>A digital invention studio that builds brands, websites, and experiences for the modern world. Unique. Bold. Timeless.</p>
+        <div>
+            <a href="#" class="cta-btn" onmouseover="hoverCursor()" onmouseleave="leaveCursor()" onclick="openModal()">Start Project</a>
+        </div>
+        
+        <!-- Animated Background Element -->
+        <div style="position: absolute; right: 0; top: 20%; width: 400px; height: 400px; background: radial-gradient(circle, var(--primary) 0%, transparent 70%); opacity: 0.15; filter: blur(50px); pointer-events: none;"></div>
+    </section>
+
+    <section class="grid-section">
+        <div class="filter-nav">
+            <span class="filter-btn active" onclick="filterProjects('all', this)" onmouseover="hoverCursor()" onmouseleave="leaveCursor()">All Work</span>
+            <span class="filter-btn" onclick="filterProjects('brand', this)" onmouseover="hoverCursor()" onmouseleave="leaveCursor()">Branding</span>
+            <span class="filter-btn" onclick="filterProjects('web', this)" onmouseover="hoverCursor()" onmouseleave="leaveCursor()">Web Design</span>
+        </div>
+
+        <div class="projects-grid" id="projectGrid">
+            <!-- Injected JS -->
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal" id="contactModal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 20px;">Let's Talk</h2>
+            <input type="text" placeholder="Your Name">
+            <input type="email" placeholder="Your Email">
+            <textarea placeholder="Project Details"></textarea>
+            <button onclick="closeModalWithSuccess()">Send Proposal</button>
+            <div style="margin-top:20px; font-size:0.8rem; cursor:pointer; color:#555;" onclick="closeModal()">Close</div>
+        </div>
+    </div>
+
+    <script>
+        // Optimized Custom Cursor
+        const cursor = document.querySelector('.cursor');
+        let mouseX = 0, mouseY = 0;
+        let ballX = 0, ballY = 0;
+        const speed = 0.2;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateCursor() {
+            let distX = mouseX - ballX;
+            let distY = mouseY - ballY;
+            ballX = ballX + (distX * speed);
+            ballY = ballY + (distY * speed);
+            cursor.style.transform = `translate3d(${ballX}px, ${ballY}px, 0) translate(-50%, -50%)`;
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        function hoverCursor() { cursor.classList.add('hovered'); }
+        function leaveCursor() { cursor.classList.remove('hovered'); }
+
+        // Projects Data
+        const projects = [
+            { cat: 'web', title: 'Neon Finance', img: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' },
+            { cat: 'brand', title: 'Urban Fashion', img: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' },
+            { cat: 'web', title: 'Future Arch', img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' },
+            { cat: 'brand', title: 'Eco Coffee', img: 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' }
+        ];
+
+        function renderProjects(filter) {
+            const grid = document.getElementById('projectGrid');
+            grid.innerHTML = '';
+            projects.filter(p => filter === 'all' || p.cat === filter).forEach(p => {
+                grid.innerHTML += `
+                    <div class="project-card" onmouseover="hoverCursor()" onmouseleave="leaveCursor()">
+                        <img src="${p.img}" loading="lazy" decoding="async">
+                        <div class="project-info">
+                            <h3>${p.title}</h3>
+                            <span style="color:var(--primary)">${p.cat.toUpperCase()}</span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function filterProjects(cat, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderProjects(cat);
+        }
+
+        // Modal
+        function openModal() { document.getElementById('contactModal').classList.add('active'); }
+        function closeModal() { document.getElementById('contactModal').classList.remove('active'); }
+        function closeModalWithSuccess() {
+            const btn = document.querySelector('.modal button');
+            btn.innerText = "Sent!";
+            btn.style.background = "white";
+            btn.style.color = "black";
+            setTimeout(() => {
+                closeModal();
+                btn.innerText = "Send Proposal";
+                btn.style.background = "#D4F464";
+            }, 1000);
+        }
+
+        renderProjects('all');
+    </script>
+<script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
+
+<script>
+    // Smooth scrolling for demos
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      direction: 'vertical',
+      gestureDirection: 'vertical',
+      smooth: true,
+      mouseMultiplier: 0.8,
+      smoothTouch: false,
+      touchMultiplier: 2,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+</script>
+
+</body>
+</html>

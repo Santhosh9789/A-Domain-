@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WanderLust | Global Travel Magazine</title>
+  <link href="../../../assets/img/favicon.png" rel="icon" type="image/png">
+  <link href="../../../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Lenis Recommended CSS */
+        html.lenis, html.lenis body { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+        .lenis.lenis-stopped { overflow: hidden; }
+        
+        /* Optimized Performance: Only hint transform on active/hover elements to save memory */
+        .story-card:hover { will-change: transform; }
+        .article-overlay { will-change: transform; }
+        .card-img img { will-change: transform; }
+
+        :root { --primary: #2C3E50; --accent: #D35400; --text: #333; --bg: #FDFBF7; }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        
+        body { font-family: 'Lato', sans-serif; background: var(--bg); color: var(--primary); overflow-x: hidden; opacity: 0; transition: opacity 0.8s ease-out; }
+        body.loaded { opacity: 1; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+        /* Nav */
+        nav { padding: 30px 10%; display: flex; justify-content: space-between; align-items: center; position: absolute; width:100%; top:0; z-index:10; color: white; }
+        .logo { font-size: 1.8rem; font-weight: 700; letter-spacing: 2px; }
+        .menu-icon { font-size: 1.5rem; cursor: pointer; }
+
+        /* Hero */
+        header.parallax-hero {
+            height: 100vh;
+            /* Changed from fixed to standard to prevent conflict with Lenis and improve performance */
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80') center/cover no-repeat;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; position: relative;
+            will-change: transform; /* Hint for browser optimization */
+        }
+        .hero-cat { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 20px; border-bottom: 2px solid var(--accent); padding-bottom: 10px; display: inline-block; }
+        .hero h1 { font-size: 5rem; margin-bottom: 30px; line-height: 1.1; font-style: italic; }
+        .read-btn {
+            padding: 15px 40px; background: transparent; border: 1px solid white; color: white; font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: 0.3s; text-decoration: none;
+        }
+        .read-btn:hover { background: white; color: var(--primary); }
+
+        /* Filter */
+        .filter-bar { padding: 50px 10%; display: flex; justify-content: center; gap: 40px; border-bottom: 1px solid #eee; }
+        .filter-item { cursor: pointer; color: #999; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; position: relative; }
+        .filter-item.active, .filter-item:hover { color: var(--primary); }
+        .filter-item.active::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 5px; height: 5px; background: var(--accent); border-radius: 50%; }
+
+        /* Grid */
+        .stories-grid { padding: 50px 10%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+        .story-card { cursor: pointer; transition: 0.3s; backface-visibility: hidden; transform: translateZ(0); }
+        .story-card:hover { transform: translateY(-10px); }
+        .card-img { height: 350px; overflow: hidden; margin-bottom: 20px; position: relative; border-radius: 4px; }
+        .card-img img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; will-change: transform; backface-visibility: hidden; }
+        .story-card:hover img { transform: scale(1.1); }
+        .card-cat { color: var(--accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block; }
+        h3 { font-size: 1.8rem; margin-bottom: 15px; line-height: 1.3; }
+        .excerpt { color: #777; font-size: 0.95rem; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+        /* Article Overlay */
+        .article-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 100;
+            overflow-y: auto; transform: translateY(100%); opacity: 0; transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.3s ease;
+            will-change: transform; backface-visibility: hidden;
+        }
+        .article-overlay.open { transform: translateY(0); opacity: 1; }
+        
+        .article-hero { height: 60vh; position: relative; }
+        .article-hero img { width: 100%; height: 100%; object-fit: cover; }
+        .close-btn { 
+            position: absolute; top: 30px; right: 30px; background: white; width: 50px; height: 50px; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.5rem; z-index: 10;
+        }
+        .article-content { max-width: 800px; margin: -100px auto 50px; background: white; padding: 60px; position: relative; box-shadow: 0 10px 50px rgba(0,0,0,0.1); }
+        .article-meta { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 20px; margin-bottom: 30px; font-size: 0.9rem; color: #999; }
+        .article-body p { font-size: 1.1rem; line-height: 2; color: #444; margin-bottom: 20px; }
+        .article-body p::first-letter { font-size: 3.5rem; float: left; margin-right: 15px; line-height: 0.8; font-family: 'Playfair Display'; font-weight: 700; color: var(--primary); }
+
+        @media(max-width: 900px) { .stories-grid { grid-template-columns: 1fr; } .hero h1 { font-size: 3rem; } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">WanderLust.</div>
+        <div class="menu-icon"><i class="fas fa-bars"></i></div>
+    </nav>
+
+    <header class="parallax-hero">
+        <span class="hero-cat">Featured Story</span>
+        <h1>Lost in the Swiss Alps</h1>
+        <a href="javascript:void(0)" onclick="openStory(0)" class="read-btn">Read Full Story</a>
+    </header>
+
+    <div class="filter-bar">
+        <div class="filter-item active" onclick="filterStories('all', this)">All</div>
+        <div class="filter-item" onclick="filterStories('Asia', this)">Asia</div>
+        <div class="filter-item" onclick="filterStories('Europe', this)">Europe</div>
+        <div class="filter-item" onclick="filterStories('Africa', this)">Africa</div>
+    </div>
+
+    <div class="stories-grid" id="grid">
+        <!-- Rendered JS -->
+    </div>
+
+    <!-- Article Overlay -->
+    <div class="article-overlay" id="reader">
+        <div class="close-btn" onclick="closeStory()"><i class="fas fa-times"></i></div>
+        <div class="article-hero">
+            <img id="overlayImg" src="" loading="lazy" decoding="async" alt="Story Hero">
+        </div>
+        <div class="article-content">
+            <span class="card-cat" id="overlayCat">Europe</span>
+            <h1 style="color:black; font-size: 3rem; margin-bottom: 20px;" id="overlayTitle">Title</h1>
+            <div class="article-meta">
+                <span>By Sarah Jenkins</span>
+                <span>Oct 24, 2024</span>
+            </div>
+            <div class="article-body">
+                <p>The journey began at dawn. As the sun crested over the snow-capped peaks, casting a golden glow across the valley, we knew this wasn't just another trip. It was an awakening. The crisp air filled our lungs, a stark contrast to the smog of the city we left behind. Every step on the winding path revealed a new wonder—a hidden waterfall, a herd of grazing mountain goats, the distant chime of cowbells echoing through the hills.</p>
+                <p>We stopped at a small village tavern for lunch. The cheese was sharp, the bread warm, and the locals welcomed us with stories of the mountain's history. It is said that these peaks hold the secrets of the ancients, whispered only to those who dare to climb high enough to listen. As night fell, the sky became a canvas of stars, unpolluted by light, reminding us of how small we truly are in this vast, beautiful world.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const stories = [
+            { id: 0, title: "Lost in the Swiss Alps", cat: "Europe", img: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-1.2.1" },
+            { id: 1, title: "Nights in Tokyo", cat: "Asia", img: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?ixlib=rb-1.2.1" },
+            { id: 2, title: "Safari in Kenya", cat: "Africa", img: "https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-1.2.1" },
+            { id: 3, title: "Bali's Hidden Beaches", cat: "Asia", img: "https://images.unsplash.com/photo-1599394022918-6c2776530abb?ixlib=rb-1.2.1" },
+            { id: 4, title: "Parisian Cafes", cat: "Europe", img: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?ixlib=rb-1.2.1" },
+            { id: 5, title: "Desert of Morocco", cat: "Africa", img: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?ixlib=rb-1.2.1" }
+        ];
+
+        function renderGrid(filter) {
+            const grid = document.getElementById('grid');
+            grid.innerHTML = '';
+            
+            const fragment = document.createDocumentFragment();
+            
+            stories.filter(s => filter === 'all' || s.cat === filter).forEach((s, index) => {
+                const div = document.createElement('div');
+                div.className = 'story-card';
+                div.onclick = () => openStory(s.id); 
+                // Add slight stagger for visual smoothness without blocking thread
+                div.style.animation = `fadeInUp 0.5s ease backwards ${index * 0.1}s`;
+                div.innerHTML = `
+                    <div class="card-img"><img src="${s.img}&w=600&q=80" loading="lazy" decoding="async" alt="${s.title}"></div>
+                    <span class="card-cat">${s.cat}</span>
+                    <h3>${s.title}</h3>
+                    <div class="excerpt">Discovering the soul of the place through its people, food, and hidden corners that only the locals know about...</div>
+                `;
+                fragment.appendChild(div);
+            });
+            
+            grid.appendChild(fragment);
+        }
+
+        function filterStories(cat, btn) {
+            document.querySelectorAll('.filter-item').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderGrid(cat);
+        }
+
+        function openStory(id) {
+            const story = stories.find(s => s.id === id);
+            if(!story) return;
+
+            // Use optimized image for overlay too (width 1200px is sufficient for hero)
+            document.getElementById('overlayImg').src = story.img + "&w=1200&q=85";
+            document.getElementById('overlayTitle').innerText = story.title;
+            document.getElementById('overlayCat').innerText = story.cat;
+            
+            // Force reflow before adding class for smooth transition
+            void document.getElementById('reader').offsetWidth; 
+            
+            document.getElementById('reader').classList.add('open');
+            document.body.style.overflow = 'hidden';
+            
+            // Stop Lenis while in overlay to prevent background scrolling issues
+            if(typeof lenis !== 'undefined') lenis.stop();
+        }
+
+        function closeStory() {
+            document.getElementById('reader').classList.remove('open');
+            document.body.style.overflow = 'auto';
+            if(typeof lenis !== 'undefined') lenis.start();
+        }
+
+        renderGrid('all');
+    </script>
+<script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
+
+<script>
+    // Smooth scrolling for demos
+    // Optimized Smooth Scrolling
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      direction: 'vertical',
+      gestureDirection: 'vertical',
+      smooth: true,
+      mouseMultiplier: 1,
+      smoothTouch: false, // Keep false to use native touch scroll on mobile (smoother/native feel)
+      touchMultiplier: 2,
+    });
+
+    // Bind Lenis to the window to ensure it catches all events
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+    
+    window.onload = function() {
+        document.body.classList.add('loaded');
+    };
+</script>
+
+</body>
+</html>

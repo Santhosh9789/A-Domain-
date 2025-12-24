@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Blueidealteck | Premium Project Showcase ☑️</title>
+  <link href="../assets/img/favicon.png" rel="icon" type="image/png">
+  <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+  <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../assets/vendor/aos/aos.css" rel="stylesheet">
+
+  <link href="../assets/css/main.css" rel="stylesheet">
+  <!-- Inherit Custom Styles as well if needed, but primarily main.css -->
+
+  <style>
+    /* Custom Styles for Showcase adapted to Theme */
+    .showcase-header {
+      padding: 120px 0 60px;
+      text-align: center;
+      background-color: var(--surface-color);
+    }
+    
+    .showcase-header h1 {
+      font-size: 3rem;
+      color: var(--heading-color);
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    
+    .showcase-header p {
+      color: var(--default-color);
+      max-width: 800px;
+      margin: 0 auto;
+      font-size: 1.1rem;
+    }
+
+    .tabs { 
+        display: flex; 
+        justify-content: center; 
+        gap: 15px; 
+        margin-bottom: 50px; 
+        flex-wrap: wrap; 
+        padding: 0 20px;
+    }
+    
+    .tab-btn {
+        padding: 10px 25px; 
+        border-radius: 30px; 
+        background: #f0f4f8; 
+        border: 1px solid #e2e8f0;
+        color: var(--default-color); 
+        cursor: pointer; 
+        transition: 0.3s; 
+        font-weight: 600; 
+        font-size: 0.95rem;
+    }
+    
+    .tab-btn:hover, .tab-btn.active { 
+        background: var(--accent-color); 
+        color: white; 
+        border-color: var(--accent-color); 
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+    }
+
+    .project-card {
+        background: #fff; 
+        border: 1px solid #eef2f6; 
+        border-radius: 16px; 
+        overflow: hidden;
+        transition: 0.3s ease; 
+        display: flex; 
+        flex-direction: column; 
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        height: 100%;
+    }
+    
+    .project-card:hover { 
+        transform: translateY(-8px); 
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1); 
+        border-color: var(--accent-color);
+    }
+
+    .projects-grid .col-lg-4 {
+        will-change: transform, opacity;
+        backface-visibility: hidden;
+    }
+    
+    .card-preview {
+        height: 200px; 
+        background: #f8fafc; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+        font-size: 3.5rem; 
+        color: var(--accent-color); 
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .card-content { padding: 25px; flex: 1; display: flex; flex-direction: column; }
+    
+    .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .category { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; color: var(--accent-color); }
+    
+    .project-card h3 { font-size: 1.35rem; margin-bottom: 10px; font-weight: 700; color: var(--heading-color); }
+    .desc { color: var(--default-color); font-size: 0.9rem; line-height: 1.5; margin-bottom: 20px; flex: 1; }
+
+    .tech-stack { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .tech-tag {
+        background: #f1f5f9; 
+        padding: 5px 12px; 
+        border-radius: 20px; 
+        font-size: 0.7rem;
+        color: #64748b; 
+        border: 1px solid #e2e8f0; 
+        font-weight: 500;
+    }
+
+    .actions { display: flex; gap: 10px; }
+    .card-btn {
+        flex: 1; padding: 10px; border-radius: 8px; text-align: center; font-weight: 600; text-decoration: none;
+        transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.9rem; cursor: pointer;
+    }
+    .btn-primary-custom { background: var(--accent-color); color: white; border: none; }
+    .btn-primary-custom:hover { background: #003355; color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    
+    .btn-secondary-custom { background: white; border: 1px solid #cbd5e1; color: #64748b; }
+    .btn-secondary-custom:hover { border-color: var(--accent-color); color: var(--accent-color); background: #f8fafc; }
+
+    /* Modal */
+    .modal {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);
+        z-index: 2000; display: hidden; opacity: 0; pointer-events: none; transition: 0.3s;
+        justify-content: center; align-items: center;
+    }
+    .modal.active { opacity: 1; pointer-events: initial; display: flex; }
+    .modal-box {
+        width: 800px; max-height: 80vh; background: white; border-radius: 12px; 
+        overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+    }
+    .modal-header { padding: 15px 25px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; background: #f8fafc; }
+    .modal-header h3 { color: var(--heading-color); margin: 0; font-size: 1.2rem; }
+    .modal-body { padding: 0; overflow-y: auto; flex: 1; background: #1e293b; }
+    .code-block { margin: 0; padding: 25px; color: #a5b4fc; font-family: 'Consolas', monospace; font-size: 0.9rem; line-height: 1.5; }
+    .close-modal { cursor: pointer; color: #64748b; font-size: 1.5rem; }
+    .close-modal:hover { color: var(--accent-color); }
+
+    /* Fix header overlap */
+    .main {
+        margin-top: 120px;
+    }
+    @media (max-width: 991px) {
+        .main {
+            margin-top: 100px;
+        }
+    }
+
+  </style>
+  <link href="../assets/season/christmas.css" rel="stylesheet">
+</head>
+
+<body class="starter-page-page">
+
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+      <a href="/" class="logo d-flex align-items-center me-auto">
+        <h1 class="sitename">Blueidealteck</h1>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="/#Home">Home</a></li>
+          <li><a href="/#about">About</a></li>
+          <li><a href="/#services">Services</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/careers/">Careers</a></li>
+          <li><a href="./" class="active">Projects</a></li>
+        </ul>
+      </nav>
+
+      <a class="btn-getstarted" href="/#contact">Get Started</a>
+
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- Page Title -->
+    <div class="page-title dark-background">
+      <div class="container position-relative">
+        <h1>Blueidealteck Premium Project Showcase</h1>
+        <p>A visual showcase of 10 highly interactive, modern web applications built by our expert team.</p>
+
+      </div>
+    </div><!-- End Page Title -->
+
+    <section id="portfolio" class="section">
+        
+        <div class="tabs" data-aos="fade-up">
+            <button class="tab-btn active" onclick="filterGrid('all', this)" aria-pressed="true">All Projects</button>
+            <button class="tab-btn" onclick="filterGrid('dashboard', this)" aria-pressed="false">Dashboards/SaaS</button>
+            <button class="tab-btn" onclick="filterGrid('creative', this)" aria-pressed="false">Creative/Web</button>
+            <button class="tab-btn" onclick="filterGrid('app', this)" aria-pressed="false">Functional Apps</button>
+        </div>
+
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+            <div id="projectGrid" class="row gy-4">
+                <!-- JS Injection -->
+            </div>
+        </div>
+
+    </section>
+
+  </main>
+
+  <footer id="footer" class="footer">
+
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-5 col-md-12 footer-about">
+          <a href="/" class="logo d-flex align-items-center">
+            <span class="sitename">Blueidealteck</span>
+          </a>
+          <div class="footer-contact pt-3">
+            <p>1/11 Anna Nagar, Mangalampet</p>
+            <p>Virudhachalam(tk), Cuddalore(dist), 606104.</p>
+            <p class="mt-3"><strong>Phone:</strong> <span>+91 9789836077</span></p>
+            <p><strong>Email:</strong> <span>info@blueidealteck.com</span></p>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 footer-links">
+          <h4>Useful Links</h4>
+          <ul>
+            <li><i class="bi bi-chevron-right"></i> <a href="/">Home</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="/#about">About us</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="/#services">Services</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="/blog/">Blogs</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="/careers/">Careers</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="/Projects/">Projects</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="/privacy-policy">Privacy Policy</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="/terms-conditions">Terms & Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-4 col-md-6 footer-links">
+          <h4>Follow Us</h4>
+          <div class="social-links d-flex mt-4">
+            <a href="https://x.com/blueidealteck" target="_blank"><i class="bi bi-twitter-x"></i></a>
+            <a href="https://www.facebook.com/profile.php?id=61576888345818" target="_blank"><i class="bi bi-facebook"></i></a>
+            <a href="https://www.instagram.com/blueidealteck/" target="_blank"><i class="bi bi-instagram"></i></a>
+            <a href="https://linkedin.com/in/blueidealteck-software-solutions-2259b7358" target="_blank"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container copyright text-center mt-4">
+      <p>© <span>2025 Copyright</span> <strong class="px-1 sitename">Blueidealteck</strong> <span>All Rights Reserved</span></p>
+    </div>
+
+  </footer>
+
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Code View Modal -->
+  <div class="modal" id="codeModal">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3>Source Code Preview</h3>
+            <i class="fas fa-times close-modal" onclick="closeModal()"></i>
+        </div>
+        <div class="modal-body">
+            <pre class="code-block" id="codeContent">
+&lt;!-- Loading Code snippet... --&gt;
+            </pre>
+        </div>
+    </div>
+  </div>
+
+  <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/aos/aos.js"></script>
+  <script src="../assets/js/main.js"></script>
+
+  <script>
+    // Initialize AOS
+    AOS.init();
+
+    const projects = [
+        { id: 1, title: 'Vortex Agency', type: 'creative', desc: 'Brutalist design agency site with custom cursor logic and modal interactions.', tech: ['GSAP', 'CSS3'], icon: 'fas fa-vector-square', path: 'projects/01-nexa-agency-landing/index.html' },
+        { id: 2, title: 'DevFolio', type: 'creative', desc: 'Premium portfolio with typing effect, dark mode, and download CV logic.', tech: ['Tailwind', 'JS'], icon: 'fas fa-user-circle', path: 'projects/02-devfolio-portfolio/index.html' },
+        { id: 3, title: 'OmniShop', type: 'app', desc: 'E-commerce interface with side-cart drawer and dynamic state management.', tech: ['State', 'DOM'], icon: 'fas fa-shopping-bag', path: 'projects/03-omnishop-product-ui/index.html' },
+        { id: 4, title: 'CryptoStat', type: 'dashboard', desc: 'Live crypto dashboard fetching real Bitcoin prices via CoinGecko API.', tech: ['API', 'Chart.js'], icon: 'fab fa-bitcoin', path: 'projects/04-cryptostat-dashboard/index.html' },
+        { id: 5, title: 'WanderLust', type: 'creative', desc: 'Interactive travel magazine acting as a Single Page Application (SPA).', tech: ['SPA', 'Grid'], icon: 'fas fa-plane-departure', path: 'projects/05-wanderlust-travel/index.html' },
+        { id: 6, title: 'FocusFlow', type: 'dashboard', desc: 'Productivity SaaS app with task filtering, priorities, and local storage.', tech: ['SaaS', 'React-like'], icon: 'fas fa-check-double', path: 'projects/06-taskmaster-react/index.html' },
+        { id: 7, title: 'SkyCast', type: 'app', desc: 'Global Weather Dashboard using Open-Meteo for real-time forecast data.', tech: ['API', 'Fetch'], icon: 'fas fa-cloud-sun', path: 'projects/07-skycast-weather/index.html' },
+        { id: 8, title: 'SecureAuth', type: 'dashboard', desc: 'Full authentication admin console with sidebar navigation and data charts.', tech: ['Admin', 'Charts'], icon: 'fas fa-shield-alt', path: 'projects/08-secureauth-login/index.html' },
+        { id: 9, title: 'Flutter Food', type: 'app', desc: 'Mobile app simulation with food filtering and additive cart animations.', tech: ['Mobile', 'Sim'], icon: 'fas fa-utensils', path: 'projects/09-flutter-delivery-ui/index.html' },
+        { id: 10, title: 'Neuromind AI', type: 'app', desc: 'ChatGPT clone with streaming text response simulation and chat history.', tech: ['AI', 'Sim'], icon: 'fas fa-robot', path: 'projects/10-ai-chatbot-ui/index.html' }
+    ];
+
+    const grid = document.getElementById('projectGrid');
+
+    function renderGrid(filter = 'all') {
+        const filtered = projects.filter(p => filter === 'all' || p.type === filter);
+        
+        // Use DocumentFragment for batch DOM insertion
+        const fragment = document.createDocumentFragment();
+        
+        filtered.forEach((p, index) => {
+            const col = document.createElement('div');
+            col.className = 'col-lg-4 col-md-6 mb-4';
+            col.setAttribute('data-aos', 'zoom-in');
+            col.setAttribute('data-aos-delay', (index * 50).toString());
+
+            const techHTML = p.tech.map(t => `<span class="tech-tag">${t}</span>`).join('');
+            
+            col.innerHTML = `
+                <div class="project-card" style="height: 100%;">
+                    <div class="card-preview">
+                        <i class="${p.icon}"></i>
+                    </div>
+                    <div class="card-content">
+                        <div class="header-row">
+                            <span class="category">${p.type}</span>
+                            <i class="fas fa-ellipsis-h" style="color:#cbd5e1;" role="img" aria-label="More options"></i>
+                        </div>
+                        <h3>${p.title}</h3>
+                        <p class="desc">${p.desc}</p>
+                        <div class="tech-stack">${techHTML}</div>
+                        <div class="actions">
+                            <button class="card-btn btn-secondary-custom" onclick="showCode('${p.title}')"><i class="fas fa-code"></i> Code</button>
+                            <a href="${p.path}" target="_blank" class="card-btn btn-primary-custom">Live Demo <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            fragment.appendChild(col);
+        });
+
+        grid.innerHTML = '';
+        grid.appendChild(fragment);
+        
+        // Refresh AOS to handle new elements
+        if (typeof AOS !== 'undefined') {
+            AOS.refresh();
+        }
+    }
+
+    function filterGrid(type, btn) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderGrid(type);
+    }
+
+    // Mock Code Modal
+    function showCode(title) {
+        const modal = document.getElementById('codeModal');
+        const content = document.getElementById('codeContent');
+        
+        content.innerText = `// ${title} - Blueidealteck Source Snippet\n\nfunction initApp() {\n    const data = await fetchData();\n    renderUI(data);\n}\n\n// Full source code available via Blueidealteck Licensing...`;
+        
+        modal.classList.add('active');
+    }
+
+    function closeModal() {
+        document.getElementById('codeModal').classList.remove('active');
+    }
+
+    // Init
+    renderGrid();
+  </script>
+
+  <script src="../assets/season/christmas.js"></script>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neuromind AI | Chat Interface</title>
+  <link href="../../../assets/img/favicon.png" rel="icon" type="image/png">
+  <link href="../../../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --sidebar-bg: #202123; --main-bg: #343541; --input-bg: #40414F; --text: #ECECF1; }
+        body { margin: 0; background: var(--main-bg); color: var(--text); font-family: 'Inter', sans-serif; display: flex; height: 100vh; overflow: hidden; }
+
+        /* Sidebar */
+        .sidebar { width: 260px; background: var(--sidebar-bg); display: flex; flex-direction: column; padding: 10px; border-right: 1px solid rgba(255,255,255,0.1); }
+        .new-chat {
+            border: 1px solid rgba(255,255,255,0.2); padding: 10px 15px; border-radius: 5px; text-align: left; background: transparent; color: white; cursor: pointer; display: flex; gap: 10px; align-items: center; transition: 0.2s; font-size: 0.9rem;
+        }
+        .new-chat:hover { background: rgba(255,255,255,0.05); }
+
+        .history { flex: 1; overflow-y: auto; margin-top: 20px; }
+        .history-item { padding: 10px 15px; cursor: pointer; border-radius: 5px; font-size: 0.9rem; display: flex; gap: 10px; align-items: center; color: #C5C5D2; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+        .history-item:hover { background: #2A2B32; }
+
+        .user-nav { padding: 15px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 10px; font-weight: 600; cursor: pointer; }
+
+        /* Main Chat */
+        .main-chat { flex: 1; display: flex; flex-direction: column; position: relative; }
+        .chat-area { 
+            flex: 1; overflow-y: auto; padding-bottom: 120px; scroll-behavior: smooth;
+            will-change: scroll-position;
+            backface-visibility: hidden;
+        }
+        
+        .message-row { display: flex; padding: 30px; gap: 20px; border-bottom: 1px solid rgba(0,0,0,0.1); justify-content: center; }
+        .message-row.ai { background: #444654; }
+        
+        .message-content { width: 100%; max-width: 800px; display: flex; gap: 20px; font-size: 1rem; line-height: 1.6; }
+        .avatar { width: 30px; height: 30px; border-radius: 2px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .avatar.user { background: #5436DA; } 
+        .avatar.ai { background: #19C37D; }
+
+        .typing-cursor::after { content: '▋'; animation: blink 1s infinite; margin-left: 2px; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* Input Area */
+        .input-area {
+            position: absolute; bottom: 0; width: 100%;
+            background: linear-gradient(180deg, rgba(53,53,65,0), #343541 20%);
+            padding: 40px 0; display: flex; justify-content: center;
+        }
+        .input-box {
+            position: relative; width: 100%; max-width: 800px;
+            background: var(--input-bg); border-radius: 15px; box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            display: flex; align-items: center; padding: 5px 15px;
+        }
+        textarea {
+            width: 100%; background: transparent; border: none; outline: none; color: white; font-family: 'Inter'; font-size: 1rem; resize: none; padding: 12px 0; max-height: 200px; overflow-y: auto;
+        }
+        .send-btn { background: transparent; border: none; color: #8E8EA0; cursor: pointer; padding: 5px; transition: 0.2s; }
+        .send-btn.active { color: white; background: #19C37D; border-radius: 5px; }
+
+        /* Welcome Screen */
+        .welcome-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; background: var(--main-bg); }
+        .welcome-screen h1 { font-size: 2.5rem; margin-bottom: 40px; }
+        .examples-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; max-width: 800px; text-align: center; }
+        .ex-col { display: flex; flex-direction: column; gap: 15px; }
+        .ex-card { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 5px; font-size: 0.9rem; cursor: pointer; transition: 0.2s; }
+        .ex-card:hover { background: rgba(0,0,0,0.2); }
+
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <button class="new-chat" onclick="resetChat()"><i class="fas fa-plus"></i> New chat</button>
+        <div class="history">
+            <div class="history-item"><i class="far fa-comment-alt"></i> Project Planning Idea</div>
+            <div class="history-item"><i class="far fa-comment-alt"></i> React Component Help</div>
+        </div>
+        <div class="user-nav">
+            <div class="avatar user" style="width:25px; height:25px;">U</div>
+            <span>Upgrade to Plus</span>
+        </div>
+    </aside>
+
+    <main class="main-chat">
+        
+        <div class="chat-area" id="messagelist"></div>
+
+        <!-- Welcome Screen -->
+        <div class="welcome-screen" id="welcome">
+            <h1>Neuromind AI</h1>
+            <div class="examples-grid">
+                <div class="ex-col">
+                    <i class="fas fa-sun"></i>
+                    <h3>Examples</h3>
+                    <div class="ex-card" onclick="setInput('Explain quantum computing in simple terms')">"Explain quantum computing..."</div>
+                </div>
+                <div class="ex-col">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Capabilities</h3>
+                    <div class="ex-card">Remembers what user said earlier in the conversation</div>
+                </div>
+                <div class="ex-col">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Limitations</h3>
+                    <div class="ex-card">May occasionally generate incorrect information</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-area">
+            <div class="input-box">
+                <textarea id="promptInput" rows="1" placeholder="Send a message..."></textarea>
+                <button class="send-btn" id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+            </div>
+            <p style="position:absolute; bottom:10px; font-size:0.75rem; color:#8E8EA0;">Free Research Preview. Neuromind may produce inaccurate information.</p>
+        </div>
+    </main>
+
+    <script>
+        const chatArea = document.getElementById('messagelist');
+        const welcome = document.getElementById('welcome');
+        const input = document.getElementById('promptInput');
+        
+        input.addEventListener('input', () => {
+             document.getElementById('sendBtn').classList.toggle('active', input.value.trim() !== '');
+        });
+
+        input.addEventListener('keydown', (e) => {
+            if(e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        document.getElementById('sendBtn').addEventListener('click', sendMessage);
+
+        function setInput(text) {
+            input.value = text;
+            sendMessage();
+        }
+
+        function sendMessage() {
+            const txt = input.value.trim();
+            if(!txt) return;
+
+            welcome.style.display = 'none';
+            input.value = '';
+            
+            // Add User Message
+            appendMessage('user', txt);
+
+            // Simulate AI Delay & Stream
+            setTimeout(() => {
+                const aiRow = appendMessage('ai', ''); 
+                const contentDiv = aiRow.querySelector('.text-content');
+                streamText(contentDiv, generateResponse(txt));
+            }, 600);
+        }
+
+        function appendMessage(role, text) {
+            const row = document.createElement('div');
+            row.className = `message-row ${role}`;
+            row.innerHTML = `
+                <div class="message-content">
+                    <div class="avatar ${role}">${role === 'user' ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>'}</div>
+                    <div class="text-content">${text}</div>
+                </div>
+            `;
+            chatArea.appendChild(row);
+            chatArea.scrollTop = chatArea.scrollHeight;
+            return row;
+        }
+
+        function streamText(element, fullText) {
+            let i = 0;
+            element.classList.add('typing-cursor');
+            const interval = setInterval(() => {
+                element.innerText += fullText.charAt(i);
+                i++;
+                chatArea.scrollTop = chatArea.scrollHeight;
+                if(i >= fullText.length) {
+                    clearInterval(interval);
+                    element.classList.remove('typing-cursor');
+                }
+            }, 20); // Typing speed
+        }
+
+        function generateResponse(input) {
+            input = input.toLowerCase();
+            if(input.includes('hello') || input.includes('hi')) return "Hello! I am Neuromind, your AI assistant. How can I help you explore this demo?";
+            if(input.includes('code')) return "I can generate code snippets! Since this is a frontend demo, I can't execute backend logic, but I can show you how this UI is built.";
+            
+            // Default response for ANY other input
+            return "Thank you for interacting with Neuromind AI! Please note that this is a **Sample Demo Project** designed to showcase the UI/UX capabilities of Blueidealteck. Actual AI processing would require a backend server connection.";
+        }
+
+        function resetChat() {
+            chatArea.innerHTML = '';
+            welcome.style.display = 'flex';
+        }
+    </script>
+<script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
+
+<script>
+    // Smooth scrolling for demos
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      direction: 'vertical',
+      gestureDirection: 'vertical',
+      smooth: true,
+      mouseMultiplier: 0.8,
+      smoothTouch: false,
+      touchMultiplier: 2,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+</script>
+
+</body>
+</html>
